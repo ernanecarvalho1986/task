@@ -24,18 +24,19 @@
     <a class="btn-novo" href="{% url 'criar_tarefa' %}">+ Nova Tarefa</a>
 
     {% for t in tarefas %}
-    <div class="tarefa {% if t.concluida %}concluida{% endif %}">
-      <input type="checkbox"
-             {% if t.concluida %}checked{% endif %}
-             onchange="window.location='/concluir/{{ t.pk }}/'"
-      <div class="tarefa-info">
-        <strong>{{ t.titulo }}</strong>
-        <small>Vence: {{ t.data_limite }} &nbsp;|&nbsp; WhatsApp: {{ t.whatsapp }}</small>
-      </div>
-    </div>
-    {% empty %}
-    <p class="vazia">Nenhuma tarefa ainda. Crie a primeira! 👆</p>
-    {% endfor %}
+<div class="tarefa">
+  <div class="tarefa-info">
+    <strong>{{ t.titulo }}</strong>
+    <small>Vence: {{ t.data_limite }} &nbsp;|&nbsp; WhatsApp: {{ t.whatsapp }}</small>
+  </div>
+  <form method="POST" action="/concluir/{{ t.pk }}/" style="margin:0">
+    {% csrf_token %}
+    <button type="submit">✅ Concluir</button>
+  </form>
+</div>
+{% empty %}
+<p class="vazia">Nenhuma tarefa ainda. Crie a primeira! 👆</p>
+{% endfor %}
   </div>
 </body>
 </html>

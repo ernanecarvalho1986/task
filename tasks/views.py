@@ -18,6 +18,5 @@ def criar_tarefa(request):
 
 def concluir_tarefa(request, pk):
     t = get_object_or_404(Task, pk=pk)
-    t.concluida = True
-    t.save()
+    t.delete()
     return redirect('lista_tarefas')

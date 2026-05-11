@@ -1,7 +1,43 @@
-<form method="POST">
-  {% csrf_token %}
-  <input name="titulo"      placeholder="Título"     required>
-  <input name="data_limite" type="date"           required>
-  <input name="whatsapp"    placeholder="5534999998888" required>
-  <button type="submit">Salvar</button>
-</form>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nova Tarefa</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: sans-serif; background: #f0f2f5; min-height: 100vh; padding: 40px 20px; }
+    .container { max-width: 480px; margin: 0 auto; background: white; border-radius: 12px; padding: 32px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+    h1 { font-size: 22px; color: #111; margin-bottom: 24px; }
+    label { display: block; font-size: 13px; font-weight: 600; color: #444; margin-bottom: 6px; }
+    input, textarea { width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; margin-bottom: 16px; outline: none; }
+    input:focus, textarea:focus { border-color: #25D366; }
+    button { width: 100%; background: #25D366; color: white; padding: 12px; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; }
+    button:hover { background: #1ebe5d; }
+    .voltar { display: block; text-align: center; margin-top: 14px; color: #888; text-decoration: none; font-size: 13px; }
+    .voltar:hover { color: #333; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>➕ Nova Tarefa</h1>
+    <form method="POST">
+      {% csrf_token %}
+      <label>Título da tarefa</label>
+      <input name="titulo" placeholder="Ex: Enviar relatório" required>
+
+      <label>Descrição (opcional)</label>
+      <textarea name="descricao" placeholder="Detalhes da tarefa..." rows="3"></textarea>
+
+      <label>Data limite</label>
+      <input name="data_limite" type="date" required>
+
+      <label>Seu WhatsApp (com código do país)</label>
+      <input name="whatsapp" placeholder="5534999998888" required>
+
+      <button type="submit">💾 Salvar Tarefa</button>
+    </form>
+    <a class="voltar" href="{% url 'lista_tarefas' %}">← Voltar para lista</a>
+  </div>
+</body>
+</html>

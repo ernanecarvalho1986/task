@@ -1,0 +1,7 @@
+<form method="POST">
+  {% csrf_token %}
+  <input name="titulo"      placeholder="Título"     required>
+  <input name="data_limite" type="date"           required>
+  <input name="whatsapp"    placeholder="5534999998888" required>
+  <button type="submit">Salvar</button>
+</form>

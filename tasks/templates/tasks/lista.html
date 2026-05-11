@@ -1,0 +1,8 @@
+{% for t in tarefas %}
+<div>
+  <input type="checkbox" {% if t.concluida %}checked{% endif %}
+         onchange="location.href='/concluir/{{ t.pk }}/'">
+  <strong>{{ t.titulo }}</strong>
+  <span>Vence: {{ t.data_limite }}</span>
+</div>
+{% endfor %}

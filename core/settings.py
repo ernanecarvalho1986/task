@@ -89,3 +89,4 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CALLMEBOT_API_KEY = os.environ.get('CALLMEBOT_API_KEY', '')
+CSRF_TRUSTED_ORIGINS = ['https://task-production-6f17.up.railway.app']

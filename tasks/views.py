@@ -52,3 +52,16 @@ def concluir_tarefa(request, pk):
     t = get_object_or_404(Task, pk=pk, usuario=request.user)
     t.delete()
     return redirect('lista_tarefas')
+
+def testar_whatsapp(request):
+    from django.conf import settings
+    from .whatsapp import enviar_whatsapp
+    resultado = enviar_whatsapp(
+        '5534999998888',  # ← coloca seu número aqui
+        '✅ Teste do sistema de alertas funcionando!',
+        settings.CALLMEBOT_API_KEY
+    )
+    return render(request, 'tasks/lista.html', {
+        'tarefas': Task.objects.filter(usuario=request.user).order_by('data_limite'),
+        'mensagem': f'WhatsApp enviado: {resultado}'
+    })

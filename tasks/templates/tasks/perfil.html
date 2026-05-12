@@ -37,8 +37,10 @@
 
     {% if request.GET.telegram_teste == 'ok' %}
     <div class="sucesso">✅ Mensagem de teste enviada! Verifique o Telegram.</div>
+    {% elif request.GET.telegram_teste == 'sem_token' %}
+    <div class="erro">❌ TELEGRAM_BOT_TOKEN não configurado no servidor.</div>
     {% elif request.GET.telegram_teste == 'erro' %}
-    <div class="erro">❌ Falha ao enviar — verifique o token do bot ou o Chat ID.</div>
+    <div class="erro">❌ Falha ao enviar — {{ request.GET.detalhe }}</div>
     {% elif request.GET.telegram_teste == 'sem_id' %}
     <div class="aviso">⚠️ Nenhum Chat ID configurado. Salve o ID abaixo primeiro.</div>
     {% endif %}

@@ -71,14 +71,28 @@ def concluir_tarefa(request, pk):
 
 @login_required(login_url='login')
 def testar_telegram(request):
+    from django.conf import settings
+    import requests as req
+    import urllib.parse
     profile, _ = UserProfile.objects.get_or_create(user=request.user)
-    resultado = None
-    if profile.telegram_chat_id:
-        ok = enviar_telegram(profile.telegram_chat_id, "✅ Teste de notificação — Telegram configurado corretamente!")
-        resultado = 'ok' if ok else 'erro'
-    else:
-        resultado = 'sem_id'
-    return redirect(f'/perfil/?telegram_teste={resultado}')
+    if not profile.telegram_chat_id:
+        return redirect('/perfil/?telegram_teste=sem_id')
+    token = settings.TELEGRAM_BOT_TOKEN
+    if not token:
+        return redirect('/perfil/?telegram_teste=sem_token')
+    try:
+        resp = req.post(
+            f"https://api.telegram.org/bot{token}/sendMessage",
+            data={'chat_id': profile.telegram_chat_id, 'text': '✅ Teste de notificação!'},
+            timeout=10,
+        )
+        if resp.status_code == 200:
+            return redirect('/perfil/?telegram_teste=ok')
+        detalhe = urllib.parse.quote(resp.json().get('description', resp.text)[:200])
+        return redirect(f'/perfil/?telegram_teste=erro&detalhe={detalhe}')
+    except Exception as e:
+        detalhe = urllib.parse.quote(str(e)[:200])
+        return redirect(f'/perfil/?telegram_teste=erro&detalhe={detalhe}')
 
 @login_required(login_url='login')
 def perfil(request):

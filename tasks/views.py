@@ -15,7 +15,8 @@ def registro(request):
             return render(request, 'tasks/registro.html', {'erro': 'Usuário já existe!'})
         user = User.objects.create_user(username=username, password=password)
         UserProfile.objects.create(user=user, telegram_chat_id=telegram_chat_id)
-        return redirect('login')
+        login(request, user)
+        return redirect('lista_tarefas')
     return render(request, 'tasks/registro.html')
 
 def login_view(request):

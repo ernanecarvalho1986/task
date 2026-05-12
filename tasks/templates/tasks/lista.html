@@ -21,6 +21,13 @@
 <body>
   <div class="container">
     <h1>📋 Minhas Tarefas</h1>
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+  <h1>📋 Minhas Tarefas</h1>
+  <div>
+    <span style="color:#888; font-size:13px; margin-right:10px;">Olá, {{ request.user.username }}!</span>
+    <a href="{% url 'logout' %}" style="color:#c00; font-size:13px;">Sair</a>
+  </div>
+</div>
     <a class="btn-novo" href="{% url 'criar_tarefa' %}">+ Nova Tarefa</a>
 
     {% for t in tarefas %}

@@ -70,6 +70,17 @@ def concluir_tarefa(request, pk):
     return redirect('lista_tarefas')
 
 @login_required(login_url='login')
+def testar_telegram(request):
+    profile, _ = UserProfile.objects.get_or_create(user=request.user)
+    resultado = None
+    if profile.telegram_chat_id:
+        ok = enviar_telegram(profile.telegram_chat_id, "✅ Teste de notificação — Telegram configurado corretamente!")
+        resultado = 'ok' if ok else 'erro'
+    else:
+        resultado = 'sem_id'
+    return redirect(f'/perfil/?telegram_teste={resultado}')
+
+@login_required(login_url='login')
 def perfil(request):
     profile, _ = UserProfile.objects.get_or_create(user=request.user)
     if request.method == 'POST':

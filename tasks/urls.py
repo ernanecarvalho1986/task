@@ -9,4 +9,5 @@ urlpatterns = [
     path('registro/', views.registro, name='registro'),
     path('logout/', views.logout_view, name='logout'),
     path('perfil/', views.perfil, name='perfil'),
+    path('testar-telegram/', views.testar_telegram, name='testar_telegram'),
 ]

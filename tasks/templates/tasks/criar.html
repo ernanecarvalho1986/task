@@ -11,9 +11,9 @@
     h1 { font-size: 22px; color: #111; margin-bottom: 24px; }
     label { display: block; font-size: 13px; font-weight: 600; color: #444; margin-bottom: 6px; }
     input, textarea { width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; margin-bottom: 16px; outline: none; }
-    input:focus, textarea:focus { border-color: #25D366; }
-    button { width: 100%; background: #25D366; color: white; padding: 12px; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; }
-    button:hover { background: #1ebe5d; }
+    input:focus, textarea:focus { border-color: #229ED9; }
+    button { width: 100%; background: #229ED9; color: white; padding: 12px; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; }
+    button:hover { background: #1a8bbf; }
     .voltar { display: block; text-align: center; margin-top: 14px; color: #888; text-decoration: none; font-size: 13px; }
     .voltar:hover { color: #333; }
   </style>
@@ -24,16 +24,13 @@
     <form method="POST">
       {% csrf_token %}
       <label>Título da tarefa</label>
-      <input name="titulo" placeholder="Ex: Enviar relatório" required>
+      <input name="titulo" placeholder="Ex: Enviar relatório" required autofocus>
 
       <label>Descrição (opcional)</label>
       <textarea name="descricao" placeholder="Detalhes da tarefa..." rows="3"></textarea>
 
       <label>Data limite</label>
       <input name="data_limite" type="date" required>
-
-      <label>Seu WhatsApp (com código do país)</label>
-      <input name="whatsapp" placeholder="5534999998888" required>
 
       <button type="submit">💾 Salvar Tarefa</button>
     </form>

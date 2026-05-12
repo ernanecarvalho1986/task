@@ -8,42 +8,61 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: sans-serif; background: #f0f2f5; min-height: 100vh; padding: 40px 20px; }
     .container { max-width: 680px; margin: 0 auto; }
-    h1 { font-size: 24px; color: #111; margin-bottom: 20px; }
-    .btn-novo { display: inline-block; background: #25D366; color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 600; margin-bottom: 24px; }
-    .tarefa { background: white; border-radius: 10px; padding: 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
-    .tarefa input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; flex-shrink: 0; }
+    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    h1 { font-size: 22px; color: #111; }
+    .nav { display: flex; align-items: center; gap: 14px; font-size: 13px; }
+    .nav a { color: #229ED9; text-decoration: none; font-weight: 600; }
+    .nav a.sair { color: #c00; }
+    .telegram-aviso { background: #fff8e1; border-left: 3px solid #f59e0b; border-radius: 8px; padding: 12px 16px; margin-bottom: 20px; font-size: 13px; color: #555; }
+    .telegram-aviso a { color: #229ED9; font-weight: 600; text-decoration: none; }
+    .telegram-ok { background: #e8f8f0; border-left: 3px solid #229ED9; border-radius: 8px; padding: 12px 16px; margin-bottom: 20px; font-size: 13px; color: #333; }
+    .btn-novo { display: inline-block; background: #229ED9; color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 600; margin-bottom: 20px; }
+    .btn-novo:hover { background: #1a8bbf; }
+    .tarefa { background: white; border-radius: 10px; padding: 16px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
     .tarefa-info strong { display: block; font-size: 15px; color: #111; }
     .tarefa-info small { color: #888; font-size: 12px; }
-    .tarefa.concluida .tarefa-info strong { text-decoration: line-through; color: #aaa; }
+    .btn-concluir { background: #e8f8f0; color: #1a8bbf; border: 1px solid #229ED9; padding: 7px 14px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; }
+    .btn-concluir:hover { background: #229ED9; color: white; }
     .vazia { text-align: center; color: #888; margin-top: 40px; }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>📋 Minhas Tarefas</h1>
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-  <h1>📋 Minhas Tarefas</h1>
-  <div>
-    <span style="color:#888; font-size:13px; margin-right:10px;">Olá, {{ request.user.username }}!</span>
-    <a href="{% url 'logout' %}" style="color:#c00; font-size:13px;">Sair</a>
-  </div>
-</div>
+    <div class="header">
+      <h1>📋 Minhas Tarefas</h1>
+      <div class="nav">
+        <span style="color:#888;">Olá, {{ request.user.username }}!</span>
+        <a href="{% url 'perfil' %}">⚙️ Perfil</a>
+        <a class="sair" href="{% url 'logout' %}">Sair</a>
+      </div>
+    </div>
+
+    {% if not profile.telegram_chat_id %}
+    <div class="telegram-aviso">
+      ⚠️ Você ainda não configurou seu Telegram. <a href="{% url 'perfil' %}">Configure agora</a> para receber alertas quando suas tarefas vencerem.
+    </div>
+    {% else %}
+    <div class="telegram-ok">
+      ✅ Telegram configurado — você receberá alertas no vencimento das tarefas.
+    </div>
+    {% endif %}
+
     <a class="btn-novo" href="{% url 'criar_tarefa' %}">+ Nova Tarefa</a>
 
     {% for t in tarefas %}
-<div class="tarefa">
-  <div class="tarefa-info">
-    <strong>{{ t.titulo }}</strong>
-    <small>Vence: {{ t.data_limite }} &nbsp;|&nbsp; WhatsApp: {{ t.whatsapp }}</small>
-  </div>
-  <form method="POST" action="/concluir/{{ t.pk }}/" style="margin:0">
-    {% csrf_token %}
-    <button type="submit">✅ Concluir</button>
-  </form>
-</div>
-{% empty %}
-<p class="vazia">Nenhuma tarefa ainda. Crie a primeira! 👆</p>
-{% endfor %}
+    <div class="tarefa">
+      <div class="tarefa-info">
+        <strong>{{ t.titulo }}</strong>
+        <small>Vence: {{ t.data_limite }}{% if t.descricao %} &nbsp;|&nbsp; {{ t.descricao|truncatechars:60 }}{% endif %}</small>
+      </div>
+      <form method="POST" action="{% url 'concluir' t.pk %}" style="margin:0">
+        {% csrf_token %}
+        <button class="btn-concluir" type="submit">✅ Concluir</button>
+      </form>
+    </div>
+    {% empty %}
+    <p class="vazia">Nenhuma tarefa ainda. Crie a primeira! 👆</p>
+    {% endfor %}
   </div>
 </body>
 </html>

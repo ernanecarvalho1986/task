@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meu Perfil</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: sans-serif; background: #f0f2f5; min-height: 100vh; padding: 40px 20px; }
+    .container { max-width: 480px; margin: 0 auto; background: white; border-radius: 12px; padding: 32px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+    h1 { font-size: 22px; color: #111; margin-bottom: 24px; }
+    label { display: block; font-size: 13px; font-weight: 600; color: #444; margin-bottom: 6px; }
+    input { width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; margin-bottom: 16px; outline: none; }
+    input:focus { border-color: #229ED9; }
+    button { width: 100%; background: #229ED9; color: white; padding: 12px; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; }
+    button:hover { background: #1a8bbf; }
+    .voltar { display: block; text-align: center; margin-top: 14px; color: #888; text-decoration: none; font-size: 13px; }
+    .voltar:hover { color: #333; }
+    .dica { background: #e8f4fb; border-left: 3px solid #229ED9; border-radius: 6px; padding: 12px; margin-bottom: 16px; font-size: 12px; color: #333; line-height: 1.8; }
+    .dica strong { color: #229ED9; }
+    .sucesso { background: #e8f8f0; border-left: 3px solid #22c55e; border-radius: 6px; padding: 12px; margin-bottom: 16px; font-size: 13px; color: #166534; }
+    .usuario { font-size: 13px; color: #888; margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>⚙️ Meu Perfil</h1>
+    <div class="usuario">Usuário: <strong>{{ request.user.username }}</strong></div>
+
+    {% if sucesso %}
+    <div class="sucesso">✅ Telegram atualizado com sucesso!</div>
+    {% endif %}
+
+    <form method="POST">
+      {% csrf_token %}
+      <label>Telegram Chat ID</label>
+      <div class="dica">
+        <strong>Como obter seu Chat ID:</strong><br>
+        1. Abra o Telegram e pesquise por <strong>@userinfobot</strong><br>
+        2. Envie qualquer mensagem para ele<br>
+        3. Ele responderá com seu <strong>Id:</strong> (ex: 123456789)<br>
+        4. Cole o número abaixo e salve
+      </div>
+      <input name="telegram_chat_id" placeholder="Ex: 123456789" value="{{ profile.telegram_chat_id }}">
+      <button type="submit">💾 Salvar</button>
+    </form>
+    <a class="voltar" href="{% url 'lista_tarefas' %}">← Voltar para lista</a>
+  </div>
+</body>
+</html>

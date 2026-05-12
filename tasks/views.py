@@ -56,12 +56,10 @@ def concluir_tarefa(request, pk):
 def testar_whatsapp(request):
     from django.conf import settings
     from .whatsapp import enviar_whatsapp
+    from django.http import HttpResponse
     resultado = enviar_whatsapp(
-        '5534999998888',  # ← coloca seu número aqui
+        '5534999998888',  # ← seu número aqui
         '✅ Teste do sistema de alertas funcionando!',
         settings.CALLMEBOT_API_KEY
     )
-    return render(request, 'tasks/lista.html', {
-        'tarefas': Task.objects.filter(usuario=request.user).order_by('data_limite'),
-        'mensagem': f'WhatsApp enviado: {resultado}'
-    })
+    return HttpResponse(f'Resultado do envio: {resultado}')

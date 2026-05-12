@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login</title>
+  <title>Cadastro</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: sans-serif; background: #f0f2f5; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
@@ -20,17 +20,17 @@
 </head>
 <body>
   <div class="container">
-    <h1>🔐 Login</h1>
+    <h1>📝 Cadastro</h1>
     {% if erro %}<div class="erro">{{ erro }}</div>{% endif %}
     <form method="POST">
       {% csrf_token %}
       <label>Usuário</label>
-      <input name="username" placeholder="Seu usuário" required autofocus>
+      <input name="username" placeholder="Escolha um usuário" required autofocus>
       <label>Senha</label>
-      <input name="password" type="password" placeholder="Sua senha" required>
-      <button type="submit">Entrar</button>
+      <input name="password" type="password" placeholder="Escolha uma senha" required>
+      <button type="submit">Cadastrar</button>
     </form>
-    <div class="link">Não tem conta? <a href="{% url 'registro' %}">Cadastre-se</a></div>
+    <div class="link">Já tem conta? <a href="{% url 'login' %}">Entrar</a></div>
   </div>
 </body>
 </html>
